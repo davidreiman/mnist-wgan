@@ -110,7 +110,7 @@ class Trainer:
 
         for epoch in range(num_epochs):
             print('Epoch: {}. Training {}% complete.'.format(
-                    epoch, np.around(epoch/num_epochs, decimals=1)))
+                    epoch, np.around(100*epoch/num_epochs, decimals=1)))
 
             if epoch % 20 == 0:
                 self.make_images(epoch, num_images=3)
@@ -146,7 +146,7 @@ class Trainer:
                 noise = self.make_noise(batch_size)
 
                 self.discriminator.trainable = False
-                gen_loss = self.adversarial.train_on_batch(noise, np.ones(batch_size)) # Why is this positive?
+                gen_loss = self.adversarial.train_on_batch(noise, np.ones(batch_size))
                 self.discriminator.trainable = True
 
                 stats['gen_loss'].append(gen_loss)
