@@ -12,6 +12,19 @@ Clone the repository, navigate to the local directory and run:
 python main.py
 ```
 
+<p align="center">
+<img src="plots/epoch_0-image_0.png" width="200" height="200">
+<img src="plots/epoch_0-image_1.png" width="200" height="200">
+<img src="plots/epoch_0-image_2.png" width="200" height="200">
+<br>
+<img src="plots/epoch_40-image_0.png" width="200" height="200">
+<img src="plots/epoch_40-image_1.png" width="200" height="200">
+<img src="plots/epoch_40-image_2.png" width="200" height="200">
+<br> 
+Sample images created by the generator at epochs 0 and 40.
+</p>
+
+
 ### Prerequisites
 
 * Keras >= 2.0.8
