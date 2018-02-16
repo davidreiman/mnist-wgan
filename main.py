@@ -102,9 +102,9 @@ class Trainer:
             plt.savefig(self.plot_path+'/epoch_{}-image_{}.png'.format(epoch, m), bbox_inches='tight')
             m += 1
 
-    def train(self, num_epochs=100, batch_size=32):
+    def train(self, num_epochs=25, batch_size=32):
         batches_per_epoch = np.shape(self.x_train)[0]//batch_size
-        stats = {'disc_loss_real': [], 'disc_loss_fake': [], 'gen_loss': []}
+        stats = {'wasserstein_distance': [], 'generator_loss': []}
 
         gen_iterations = 0
 
@@ -112,8 +112,8 @@ class Trainer:
             print('Epoch: {}. Training {}% complete.'.format(
                     epoch, np.around(100*epoch/num_epochs, decimals=1)))
 
-            if epoch % 20 == 0:
-                self.make_images(epoch, num_images=3)
+            if (epoch + 1) % 5 == 0:
+                self.make_images(epoch + 1, num_images=3)
 
             for i in range(batches_per_epoch):
 
@@ -134,12 +134,10 @@ class Trainer:
                     # Train with a batch of real data.
                     data_batch = self.get_batch(batch_size)
                     disc_loss_real = self.discriminator.train_on_batch(data_batch, np.ones(batch_size))
-                    stats['disc_loss_real'].append(disc_loss_real)
 
                     # Train with a batch of generator (fake) data.
                     gen_batch = self.gen_batch(batch_size)
                     disc_loss_fake = self.discriminator.train_on_batch(gen_batch, -np.ones(batch_size))
-                    stats['disc_loss_fake'].append(disc_loss_fake)
 
                 # Train generator.
 
@@ -149,7 +147,8 @@ class Trainer:
                 gen_loss = self.adversarial.train_on_batch(noise, np.ones(batch_size))
                 self.discriminator.trainable = True
 
-                stats['gen_loss'].append(gen_loss)
+                stats['generator_loss'].append(gen_loss)
+                stats['wasserstein_distance'].append(disc_loss_real + disc_loss_fake)
 
                 gen_iterations += 1
 
