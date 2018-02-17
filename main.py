@@ -148,7 +148,7 @@ class Trainer:
                 self.discriminator.trainable = True
 
                 stats['generator_loss'].append(gen_loss)
-                stats['wasserstein_distance'].append(disc_loss_real + disc_loss_fake)
+                stats['wasserstein_distance'].append(-(disc_loss_real + disc_loss_fake))
 
                 gen_iterations += 1
 
