@@ -11,9 +11,6 @@ class Trainer:
     def __init__(self, dcgan, optimizer='adam', plot_path='plots'):
         assert optimizer.lower() in ['adam', 'rmsprop'], "Optimizer unrecognized or unavailable."
 
-        if plot_path.endswith('/'):
-            plot_path = plot_path[:-1]
-
         if not os.path.isdir(plot_path):
             os.mkdir(plot_path)
 
@@ -86,7 +83,7 @@ class Trainer:
             plt.close()
             plt.plot(range(len(item)), item)
             plt.title(str(key))
-            plt.savefig(self.plot_path+'/{}.png'.format(key), bbox_inches='tight')
+            plt.savefig(os.path.join(self.plot_path, '{}.png'.format(key)), bbox_inches='tight')
 
     def make_images(self, epoch, num_images=3):
         noise = self.make_noise(num_images)
@@ -99,7 +96,7 @@ class Trainer:
             plt.xticks([])
             plt.yticks([])
             plt.tight_layout(pad=0)
-            plt.savefig(self.plot_path+'/epoch_{}-image_{}.png'.format(epoch, m), bbox_inches='tight')
+            plt.savefig(os.path.join(self.plot_path, 'epoch_{}-image_{}.png'.format(epoch, m)), bbox_inches='tight')
             m += 1
 
     def train(self, num_epochs=25, batch_size=32):
